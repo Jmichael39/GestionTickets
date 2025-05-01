@@ -18,31 +18,34 @@ public class Main {
                 8
          */
 
-        Scanner sc = new Scanner(System.in);
-        int numeroEntradas = Integer.parseInt(sc.nextLine());
-        String[] numeros = new String[numeroEntradas];
+        run();
+    }
 
-        for (int i = 0; i < numeroEntradas; i++) {
-            numeros[i] = sc.nextLine();
-        }
+    private static void run() {
+        try(Scanner sc = new Scanner(System.in)) {
+            int numeroEntradas = Integer.parseInt(sc.nextLine());
+            String[] numeros = new String[numeroEntradas];
 
-        sc.close();
-
-        for (String numero : numeros) {
-            int total = 0;
-
-            for (int i = 0; i < numero.length(); i++) {
-                int num = Integer.parseInt(String.valueOf(numero.charAt(i)));
-                if (i % 2 == 0) {
-                    // Cada dígito en una posición impar se multiplica por 3 y se le suma el menor dígito a su derecha
-                    total += (num * 3) + menorDigitoDerecha(numero, i);
-                } else {
-                    // Cada dígito en una posición par se multiplica por 2 y se le suma el mayor dígito a su izquierda
-                    total += (num * 2 + mayorDigitoIzquierda(numero, i));
-                }
+            for (int i = 0; i < numeroEntradas; i++) {
+                numeros[i] = sc.nextLine();
             }
 
-            System.out.println(total);
+            for (String numero : numeros) {
+                int total = 0;
+
+                for (int i = 0; i < numero.length(); i++) {
+                    int num = Integer.parseInt(String.valueOf(numero.charAt(i)));
+                    if (i % 2 == 0) {
+                        // Cada dígito en una posición impar se multiplica por 3 y se le suma el menor dígito a su derecha
+                        total += (num * 3) + menorDigitoDerecha(numero, i);
+                    } else {
+                        // Cada dígito en una posición par se multiplica por 2 y se le suma el mayor dígito a su izquierda
+                        total += (num * 2 + mayorDigitoIzquierda(numero, i));
+                    }
+                }
+
+                System.out.println(total);
+            }
         }
     }
 
@@ -52,10 +55,7 @@ public class Main {
 
         for (int i = position + 1; i < numero.length(); i++) {
             int actual = Integer.parseInt(String.valueOf(numero.charAt(i)));
-
-            if (actual < menor) {
-                menor = actual;
-            }
+            menor = Math.min(actual, menor);
         }
 
         return menor;
@@ -68,9 +68,7 @@ public class Main {
         for (int i = 0; i < position; i++) {
             int actual = Integer.parseInt(String.valueOf(numero.charAt(i)));
 
-            if (actual > mayor) {
-                mayor = actual;
-            }
+            mayor = Math.max(mayor, actual);
         }
 
         return mayor;
